@@ -37,7 +37,7 @@ func! WordProcessor()
   setlocal linebreak
   " spelling and thesaurus
   setlocal spell spelllang=en_us
-  set thesaurus+=/home/tracy/.vim/thesaurus/mthesaur.txt
+  "set thesaurus+=~/.vim/thesaurus/mthesaur.txt
   " complete+=s makes autocompletion search the thesaurus
   set complete+=s
 endfu
