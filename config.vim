@@ -1,13 +1,29 @@
-" Needed to make ctrl-v paste in insert mode
-map <space> <Ctrl-V>
-if 1
+" Windows-specific settings
+if has("win32")
+    " Need to use PowerShell commands from NeoVim.
+    let &shell = executable('pwsh') ? 'pwsh' : 'powershell'
+    let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues[''Out-File:Encoding'']=''utf8'';'
+    let &shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
+    let &shellpipe  = '2>&1 | %%{ "$_" } | Tee-Object %s; exit $LastExitCode'
+    set shellquote= shellxquote=
+
+
+    " Needed to make ctrl-v paste in insert mode
     exe 'inoremap <script> <C-V> <C-G>u' . paste#paste_cmd['i']
     exe 'vnoremap <script> <C-V> ' . paste#paste_cmd['v']
+    inoremap <c-u> <esc>viwU
+    nnoremap <c-u> <esc>viwU
 endif
-imap <S-Insert>		<C-V>
-vmap <S-Insert>		<C-V>
-imap <c-u> <esc>viwU
-nmap <c-u> <esc>viwU
+
+if has("clipboard")
+    " CTRL-X and SHIFT-Del are Cut
+    vnoremap <C-X> "+x
+    vnoremap <S-Del> "+x
+
+    " CTRL-C and CTRL-Insert are Copy
+    vnoremap <C-C> "+y
+    vnoremap <C-Insert> "+y
+endif
 
 
 set nocompatible            " disable compatibility to old-time vi
