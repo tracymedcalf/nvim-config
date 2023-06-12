@@ -15,6 +15,8 @@ if has("win32")
     nnoremap <c-u> <esc>viwU
 endif
 
+nnoremap <F4> :%s/<c-r><c-w>//g<c-f>$F/i
+
 if has("clipboard")
     " CTRL-X and SHIFT-Del are Cut
     vnoremap <C-X> "+x
